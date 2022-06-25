@@ -10,7 +10,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 import time
 
 #----whole data-----
-data = []
+# data = []
 
 #---- contants ----
 
@@ -30,23 +30,7 @@ name_of_candidateXP = '//*[@id="data-tab"]/tbody/tr/td[2]/div/h4'
 name_of_partyXP = '//*[@id="data-tab"]/tbody/tr/td[2]/div/div/div[1]/p[1]/text()'
 name_of_stateXP = '//*[@id="data-tab"]/tbody/tr/td[2]/div/div/div[2]/p[1]/text()'
 name_of_consistuencyXP = '//*[@id="data-tab"]/tbody/tr/td[2]/div/div/div[2]/p[2]/text()'
-# Object that manages the starting and stopping of the ChromeDriver
-# global serv
-serv = Service(chromeDriver)
 
-
-#chrome driver compatibility
-# options = webdriver.ChromeOptions()
-# options.add_experimental_option('excludeSwitches', ['enable-logging'])
-
-# global driver
-driver = webdriver.Chrome(service=serv)
-
-# calling the root url for automation
-driver.get(rootUrl)
-
-# resizing windows to full size
-driver.maximize_window()
 
 
 #-----getter-------
@@ -92,8 +76,28 @@ def selectNextPage(index):
 
 
 #-----main-------
-def main():
+def fetchDataFromWebsite():
         try:
+            # Object that manages the starting and stopping of the ChromeDriver
+            global serv
+            serv = Service(chromeDriver)
+
+
+            #chrome driver compatibility
+            # options = webdriver.ChromeOptions()
+            # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+            global driver
+            driver = webdriver.Chrome(service=serv)
+
+            # calling the root url for automation
+            driver.get(rootUrl)
+
+            # resizing windows to full size
+            driver.maximize_window()
+
+            data = []
+            cache = set()
             
             list_of_elections = getElection()
             list_of_elections.select_by_index(0)
@@ -137,12 +141,13 @@ def main():
                                 state = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[1]')).text
                                 constituency = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[2]')).text
                                 candidate = {'Name' : nam , 'Party' : party.split(':')[1].lstrip() , 'Status' : status , 'State' : state.split(':')[1].lstrip() , 'Constituency' : constituency.split(':')[1].lstrip(),'Election': name_of_election,'ElectionType' : type_of_election}
-                                data.append(candidate)
-                        break
-                    break
-                break       
+                                cs = ''+candidate
+                                if cs not in cache:
+                                    cache.add(cs)
+                                    data.append(candidate)
+                      
             driver.close()
-            print(data)
+            return data
         except Exception as e: 
             print(e)
 
