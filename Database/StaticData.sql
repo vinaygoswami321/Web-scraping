@@ -4,7 +4,7 @@ USE `INDIANELECTION`;
 -- Insert Query -- 
 
 -- // Temperorialy making the election table insertion static
--- INSERT INTO ELECTION (ELECTION_ID, ELECTION_NAME) VALUES(1, 'ELECTION-JUNE-2022');
+INSERT INTO ELECTION (ELECTION_ID, ELECTION_NAME) VALUES(1, 'Election-June-2022');
 
 
 -- Insert ElectionType --
@@ -66,7 +66,7 @@ INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (49,'Telugu Desam Party' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (50,'United Democratic Party' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (51,'Zoram Nationalist Party' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (52,'Indian National Congress' );
-INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (53,'Bhartiya Janta Party' );
+INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (53,'Bharatiya Janata Party' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (54,'Independent' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (55,'Andhra Rastra Praja Samithi' );
 INSERT INTO PARTY (PARTY_ID, PARTY_NAME) VALUES (56,'Indian National League' );
@@ -90,7 +90,7 @@ INSERT INTO `states` (`state_id`, `state_name`) VALUES
 (14, 'MEGHALAYA'),
 (15, 'MIZORAM'),
 (16, 'NAGALAND'),
-(17, 'ORISSA'),
+(17, 'ODISHA'),
 (18, 'PUNJAB'),
 (19, 'RAJASTHAN'),
 (20, 'SIKKIM'),
@@ -106,7 +106,7 @@ INSERT INTO `states` (`state_id`, `state_name`) VALUES
 (30, 'DADRA & NAGAR'),
 (31, 'CHANDIGARH'),
 (32, 'ANDAMAN & NICOBAR'),
-(33, 'UTTARANCHAL'),
+(33, 'UTTARAKHAND'),
 (34, 'JHARKHAND'),
 (35, 'CHATTISGARH'),
 (36, 'NCT OF Delhi');

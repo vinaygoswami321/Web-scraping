@@ -26,23 +26,24 @@ def dbconnectionprocess():
 # data = [{
 #     'Id':44,
 #     'Name': 'PATTAN MANUSOOR KHAN',
-#     'Party': 'INDEPENDENT',
+#     'Party': 'GIRI AND SISTERS',
 #     'Status': 'REJECTED',
 #     'State': 'MADHYA PRADESH',
 #     'Constituency': 'ATMAKUR',
 #     'Election': 'ELECTION-JUNE-2022',
-#     'ElectionType': 'AC-BYE',
+#     'ElectionType': 'AC - BYE',
 # }]
 
 
 global cache
-cache = []
+cache = set()
 
 # get one id from table
 def getDataFromDB(id,table,col_name,match_col_name):
     my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
     if table == 'constituency' and my_cursor.fetchone() == None:
         my_cursor.execute(f"select count(*) from constituency;")
+        print("going")
         count = int(my_cursor.fetchone()[0])
         count+=1
         my_cursor.execute(f"Insert into constituency (constituency_id, constituency_name, state_id) values({count}, '{match_col_name}','{state_id}');")
@@ -51,6 +52,7 @@ def getDataFromDB(id,table,col_name,match_col_name):
         my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
     if table == 'party' and my_cursor.fetchone() == None:
         my_cursor.execute(f"select count(*) from party;")
+        print("coming")
         count = int(my_cursor.fetchone()[0])
         count+=1
         my_cursor.execute(f"Insert into party (party_id, party_name) values({count}, '{match_col_name}');")
@@ -75,17 +77,18 @@ def filterData(data):
     for candidate in data:
         print("candidate",candidate)
         state_id, constituency_id, electiontype_id,election_id, party_id = getIdFromDB(candidate=candidate)
-        cache.append(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Status']}', {party_id},{constituency_id});\n")
-        cache.append(f"INSERT INTO ELECTION_ELECTIONTYPE (ELECTION_ID, ELECTIONTYPE_ID) VALUES({election_id},{electiontype_id});\n")
-        cache.append(f"INSERT INTO ELECTION_STATES (ELECTION_ID, STATE_ID) VALUES({election_id},{state_id});\n")
-        cache.append(f"INSERT INTO ELECTIONTYPE_STATES(ELECTIONTYPE_ID,STATE_ID) VALUES({electiontype_id},{state_id});\n")
-        cache.append(f"INSERT INTO ELECTIONTYPE_CONSTITUENCY(ELECTIONTYPE_ID,CONSTITUENCY_ID) VALUES({electiontype_id},{constituency_id});\n")
+        cache.add(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Status']}', {party_id},{constituency_id});\n")
+        cache.add(f"INSERT INTO ELECTION_ELECTIONTYPE (ELECTION_ID, ELECTIONTYPE_ID) VALUES({election_id},{electiontype_id});\n")
+        cache.add(f"INSERT INTO ELECTION_STATES (ELECTION_ID, STATE_ID) VALUES({election_id},{state_id});\n")
+        cache.add(f"INSERT INTO ELECTIONTYPE_STATES(ELECTIONTYPE_ID,STATE_ID) VALUES({electiontype_id},{state_id});\n")
+        cache.add(f"INSERT INTO ELECTIONTYPE_CONSTITUENCY(ELECTIONTYPE_ID,CONSTITUENCY_ID) VALUES({electiontype_id},{constituency_id});\n")
         Index+=1
     
     db.commit()
     my_cursor.close()
     db.close()
 
+# filterData(data)
     file = open("Database/DynamicData.sql", "w")
     file.writelines(cache)
     file.close()
