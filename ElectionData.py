@@ -141,6 +141,7 @@ def fetchDataFromWebsite():
                                 state = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[1]')).text
                                 constituency = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[2]')).text
                                 candidate = {'Name' : nam , 'Party' : party.split(':')[1].lstrip() , 'Status' : status , 'State' : state.split(':')[1].lstrip() , 'Constituency' : constituency.split(':')[1].lstrip(),'Election': name_of_election,'ElectionType' : type_of_election}
+                                print(candidate)
                                 cs = ''+candidate
                                 if cs not in cache:
                                     cache.add(cs)
