@@ -14,7 +14,7 @@ data = []
 
 #---- contants ----
 
-chromeDriver = "C:\\Users\\acer\\Downloads\\chromedriver_win32\\chromedriver.exe"
+chromeDriver = "C:\\Users\\yashg\\Downloads\\chromedriver.exe"
 rootUrl = "https://affidavit.eci.gov.in/"
 
 #---- xPaths ----
@@ -34,7 +34,11 @@ name_of_consistuencyXP = '//*[@id="data-tab"]/tbody/tr/td[2]/div/div/div[2]/p[2]
 # global serv
 serv = Service(chromeDriver)
 
+
 #chrome driver compatibility
+# options = webdriver.ChromeOptions()
+# options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
 # global driver
 driver = webdriver.Chrome(service=serv)
 
@@ -138,6 +142,7 @@ def main():
                     break
                 break       
             driver.close()
+            print(data)
         except Exception as e: 
             print(e)
 
