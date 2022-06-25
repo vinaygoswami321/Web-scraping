@@ -1,9 +1,10 @@
-create database `INDIANELECTION`;
+-- Entity tables
+USE `INDIANELECTION`;
 
 -- Insert Query -- 
 
 -- // Temperorialy making the election table insertion static
-INSERT INTO ELECTION (ELECTION_ID, ELECTION_NAME) VALUES(1, 'ELECTION-JUNE-2022');
+-- INSERT INTO ELECTION (ELECTION_ID, ELECTION_NAME) VALUES(1, 'ELECTION-JUNE-2022');
 
 
 -- Insert ElectionType --

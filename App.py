@@ -1,6 +1,6 @@
 from ElectionData import fetchDataFromWebsite
-from Database.dataFiltering import filterData
+from Database import dataFiltering 
 
 data = fetchDataFromWebsite()
-filterData(data)
+dataFiltering.filterData(data)
 

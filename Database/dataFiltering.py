@@ -1,6 +1,6 @@
 from ordered_set import OrderedSet
 from time import time
-from databaseConnection import db,my_cursor
+from dbConnection import *
 
 
 # RESPONSE DATA
