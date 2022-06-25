@@ -115,7 +115,6 @@ def fetchDataFromWebsite():
                 for indexState in range(1,len(list_of_state.options)):
                     list_of_state = getStateList()
                     time.sleep(2)
-                    print("selecting state",indexState)
                     list_of_state.select_by_index(indexState)
                     time.sleep(1)
                     list_of_constituency = getConstituency()
@@ -124,7 +123,6 @@ def fetchDataFromWebsite():
                         list_of_constituency = getConstituency()
                         time.sleep(1)
                         list_of_constituency.select_by_index(indexConstituency)
-                        candidates = []
                         time.sleep(1)
                         selectFilter()
                         time.sleep(1)
@@ -141,15 +139,15 @@ def fetchDataFromWebsite():
                                 state = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[1]')).text
                                 constituency = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[2]')).text
                                 candidate = {'Name' : nam , 'Party' : party.split(':')[1].lstrip() , 'Status' : status , 'State' : state.split(':')[1].lstrip() , 'Constituency' : constituency.split(':')[1].lstrip(),'Election': name_of_election,'ElectionType' : type_of_election}
-                                print(candidate)
-                                cs = ''+candidate
+                                cs = ''+nam+party.split(':')[1].lstrip()+status+state.split(':')[1].lstrip()+constituency.split(':')[1].lstrip()+name_of_election+type_of_election
                                 if cs not in cache:
                                     cache.add(cs)
                                     data.append(candidate)
-                      
+            
             driver.close()
             return data
         except Exception as e: 
             print(e)
+
 
 
