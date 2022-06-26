@@ -134,12 +134,13 @@ def fetchDataFromWebsite():
                             list_of_candidates = getRecord()
                             for c in range(1,list_of_candidates):
                                 nam = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/h4')).text
+                                image = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[1]/div/a/img')).get_attribute('src')
                                 party = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[1]/p[1]')).text
                                 status = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[1]/p[2]/strong[2]/font')).text
                                 state = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[1]')).text
                                 constituency = driver.find_element(by=By.XPATH,value=(f'//*[@id="data-tab"]/tbody/tr[{c}]/td[2]/div/div/div[2]/p[2]')).text
-                                candidate = {'Name' : nam , 'Party' : party.split(':')[1].lstrip() , 'Status' : status , 'State' : state.split(':')[1].lstrip() , 'Constituency' : constituency.split(':')[1].lstrip(),'Election': name_of_election,'ElectionType' : type_of_election}
-                                cs = ''+nam+party.split(':')[1].lstrip()+status+state.split(':')[1].lstrip()+constituency.split(':')[1].lstrip()+name_of_election+type_of_election
+                                candidate = {'Name' : nam , 'Image' : image ,'Party' : party.split(':')[1].lstrip() , 'Status' : status , 'State' : state.split(':')[1].lstrip() , 'Constituency' : constituency.split(':')[1].lstrip(),'Election': name_of_election,'ElectionType' : type_of_election}
+                                cs = ''+nam+image+party.split(':')[1].lstrip()+status+state.split(':')[1].lstrip()+constituency.split(':')[1].lstrip()+name_of_election+type_of_election
                                 if cs not in cache:
                                     cache.add(cs)
                                     data.append(candidate)
@@ -148,6 +149,7 @@ def fetchDataFromWebsite():
             return data
         except Exception as e: 
             print(e)
+
 
 
 

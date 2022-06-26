@@ -77,7 +77,7 @@ def filterData(data):
     for candidate in data:
         print("candidate",candidate)
         state_id, constituency_id, electiontype_id,election_id, party_id = getIdFromDB(candidate=candidate)
-        cache.add(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Status']}', {party_id},{constituency_id});\n")
+        cache.add(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_IMAGE ,CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Image']}','{candidate['Status']}', {party_id},{constituency_id});\n")
         cache.add(f"INSERT INTO ELECTION_ELECTIONTYPE (ELECTION_ID, ELECTIONTYPE_ID) VALUES({election_id},{electiontype_id});\n")
         cache.add(f"INSERT INTO ELECTION_STATES (ELECTION_ID, STATE_ID) VALUES({election_id},{state_id});\n")
         cache.add(f"INSERT INTO ELECTIONTYPE_STATES(ELECTIONTYPE_ID,STATE_ID) VALUES({electiontype_id},{state_id});\n")
