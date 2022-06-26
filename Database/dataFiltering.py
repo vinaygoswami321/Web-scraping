@@ -38,37 +38,35 @@ def dbconnectionprocess():
 global cache
 cache = set()
 
+
+def getDataFromPartyOrConstituency(id,table,col_name,match_col_name):
+    my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
+    if  my_cursor.fetchone() == None:
+        my_cursor.execute(f"select count(*) from {table};")
+        count = int(my_cursor.fetchone()[0])
+        count+=1
+        if table == 'Constituency':
+            my_cursor.execute(f"Insert into {table} ({id}, {col_name}, state_id) values({count}, '{match_col_name}','{state_id}');")
+        else:
+            my_cursor.execute(f"Insert into {table} ({id}, {col_name}) values({count}, '{match_col_name}');")
+        return int(count)
+    else:
+        my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
+    return int(my_cursor.fetchone()[0])
+
 # get one id from table
 def getDataFromDB(id,table,col_name,match_col_name):
     my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
-    if table == 'constituency' and my_cursor.fetchone() == None:
-        my_cursor.execute(f"select count(*) from constituency;")
-        print("going")
-        count = int(my_cursor.fetchone()[0])
-        count+=1
-        my_cursor.execute(f"Insert into constituency (constituency_id, constituency_name, state_id) values({count}, '{match_col_name}','{state_id}');")
-        return int(count)
-    if table == 'constituency':
-        my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
-    if table == 'party' and my_cursor.fetchone() == None:
-        my_cursor.execute(f"select count(*) from party;")
-        print("coming")
-        count = int(my_cursor.fetchone()[0])
-        count+=1
-        my_cursor.execute(f"Insert into party (party_id, party_name) values({count}, '{match_col_name}');")
-        return int(count)
-    if table == 'party':
-        my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
     return int(my_cursor.fetchone()[0])
 
 # get all id's from table
 def getIdFromDB(candidate):
     global state_id
     state_id  = getDataFromDB('state_id','states','state_name',candidate['State'])
-    constituency_id  = getDataFromDB('constituency_id','constituency','constituency_name',candidate['Constituency'])
+    constituency_id  = getDataFromPartyOrConstituency('constituency_id','constituency','constituency_name',candidate['Constituency'])
     electiontype_id  = getDataFromDB('electiontype_id','electiontype','electiontype_name',candidate['ElectionType'])
     election_id  = getDataFromDB('election_id','election','election_name',candidate['Election'])
-    party_id  = getDataFromDB('party_id','party','party_name',candidate['Party'])
+    party_id  = getDataFromPartyOrConstituency('party_id','party','party_name',candidate['Party'])
     return [state_id, constituency_id, electiontype_id,election_id, party_id]
     
 def filterData(data):
