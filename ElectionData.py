@@ -14,7 +14,7 @@ import time
 
 #---- contants ----
 
-chromeDriver = "C:\\Users\\acer\\Downloads\\chromedriver_win32\\chromedriver.exe"
+chromeDriver = "C:\\Users\\yashg\\Downloads\\chromedriver_win32\\chromedriver.exe"
 rootUrl = "https://affidavit.eci.gov.in/"
 
 #---- xPaths ----

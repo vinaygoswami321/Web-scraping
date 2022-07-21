@@ -46,6 +46,7 @@ def getDataFromDB(id,table,col_name,match_col_name):
         print("going")
         count = int(my_cursor.fetchone()[0])
         count+=1
+        cache.add(f"Insert into constituency (constituency_id, constituency_name, state_id) values({count}, '{match_col_name}','{state_id}');")
         my_cursor.execute(f"Insert into constituency (constituency_id, constituency_name, state_id) values({count}, '{match_col_name}','{state_id}');")
         return int(count)
     if table == 'constituency':
@@ -55,6 +56,7 @@ def getDataFromDB(id,table,col_name,match_col_name):
         print("coming")
         count = int(my_cursor.fetchone()[0])
         count+=1
+        cache.add(f"Insert into party (party_id, party_name) values({count}, '{match_col_name}');")
         my_cursor.execute(f"Insert into party (party_id, party_name) values({count}, '{match_col_name}');")
         return int(count)
     if table == 'party':
