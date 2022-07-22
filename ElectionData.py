@@ -128,6 +128,7 @@ def fetchDataFromWebsite():
                         time.sleep(1)
                         count = getPaginationCount()
                         if count == 0 :
+                            print(f"{count} where count equal 0")
                             time.sleep(2)
                             list_of_candidates = getRecord()
                             for c in range(1,list_of_candidates):
@@ -142,8 +143,9 @@ def fetchDataFromWebsite():
                                 if cs not in cache:
                                     cache.add(cs)
                                     data.append(candidate)
-                                    
-                        else:
+
+                        if count > 0:
+                            print("in second if")
                             for index in range(1,count):
                                 time.sleep(2)
                                 selectNextPage(index)
@@ -162,7 +164,7 @@ def fetchDataFromWebsite():
                                         cache.add(cs)
                                         data.append(candidate)
             
-                break
+                
             driver.close()
             return data
         except Exception as e: 
