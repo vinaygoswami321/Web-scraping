@@ -38,7 +38,6 @@ def dbconnectionprocess():
 global cache
 cache = set()
 
-
 def getDataFromPartyOrConstituency(id,table,col_name,match_col_name):
     my_cursor.execute(f"select {id} from {table} where {col_name} = '{match_col_name}';")
     if  my_cursor.fetchone() == None:
@@ -46,8 +45,10 @@ def getDataFromPartyOrConstituency(id,table,col_name,match_col_name):
         count = int(my_cursor.fetchone()[0])
         count+=1
         if table == 'Constituency':
+            cache.add(f"Insert into {table} ({id}, {col_name}, state_id) values({count}, '{match_col_name}','{state_id}');")
             my_cursor.execute(f"Insert into {table} ({id}, {col_name}, state_id) values({count}, '{match_col_name}','{state_id}');")
         else:
+            cache.add(f"Insert into {table} ({id}, {col_name}) values({count}, '{match_col_name}');")
             my_cursor.execute(f"Insert into {table} ({id}, {col_name}) values({count}, '{match_col_name}');")
         return int(count)
     else:
@@ -75,7 +76,7 @@ def filterData(data):
     for candidate in data:
         print("candidate",candidate)
         state_id, constituency_id, electiontype_id,election_id, party_id = getIdFromDB(candidate=candidate)
-        cache.add(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Status']}', {party_id},{constituency_id});\n")
+        cache.add(f"INSERT INTO CANDIDATE (CANDIDATE_ID, CANDIDATE_NAME, CANDIDATE_IMAGE ,CANDIDATE_STATUS, PARTY_ID, CONSTITUENCY_ID) VALUES({Index}, '{candidate['Name']}','{candidate['Image']}','{candidate['Status']}', {party_id},{constituency_id});\n")
         cache.add(f"INSERT INTO ELECTION_ELECTIONTYPE (ELECTION_ID, ELECTIONTYPE_ID) VALUES({election_id},{electiontype_id});\n")
         cache.add(f"INSERT INTO ELECTION_STATES (ELECTION_ID, STATE_ID) VALUES({election_id},{state_id});\n")
         cache.add(f"INSERT INTO ELECTIONTYPE_STATES(ELECTIONTYPE_ID,STATE_ID) VALUES({electiontype_id},{state_id});\n")
