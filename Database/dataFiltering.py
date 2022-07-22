@@ -44,7 +44,7 @@ def getDataFromPartyOrConstituency(id,table,col_name,match_col_name):
         my_cursor.execute(f"select count(*) from {table};")
         count = int(my_cursor.fetchone()[0])
         count+=1
-        if table == 'Constituency':
+        if table == 'constituency':
             cache.add(f"Insert into {table} ({id}, {col_name}, state_id) values({count}, '{match_col_name}','{state_id}');")
             my_cursor.execute(f"Insert into {table} ({id}, {col_name}, state_id) values({count}, '{match_col_name}','{state_id}');")
         else:
